@@ -28,8 +28,7 @@ module.exports = {
   devServer: {
       contentBase: path.join(__dirname, "client"),
       proxy: {
-        "/api": "http://localhost:3000",
-        "/data": "http://localhost:3000"
+        "/data": {"target": "https://instaguide.io/", changeOrigin: true}
       }
   },
   plugins: [
@@ -41,7 +40,7 @@ module.exports = {
       filename: 'info.html',
       template: 'client/html/index.html',
       chunks: ['instanceInfo']
-    }),
+    }), /*
     new PrerenderSpaPlugin(
       // Absolute path to compiled SPA
       path.join(__dirname, './dist'),
@@ -50,6 +49,6 @@ module.exports = {
       {
         captureAfterElementExists: '.group-first'
       }
-    )
+    ) */ 
   ]
 }
