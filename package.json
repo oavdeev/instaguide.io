@@ -1,0 +1,35 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "inferno": "^1.4.2",
+    "path": "^0.12.7",
+    "webpack": "^2.3.1",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "jest",
+    "build": "webpack -p --progress --devtool null",
+    "stats": "webpack -p --progress --devtool null --json >stats.json"
+  },
+  "devDependencies": {
+    "babel-plugin-inferno": "^2.0.0",
+    "classnames": "^2.2.5",
+    "css-loader": "^0.27.3",
+    "html-webpack-plugin": "^2.30.1",
+    "inferno-component": "^1.4.2",
+    "inferno-devtools": "^1.4.2",
+    "ionicons-webpack": "^0.0.1",
+    "jest": "^19.0.2",
+    "node-sass": "^4.5.1",
+    "prerender-spa-plugin": "^2.1.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.0"
+  }
+}
