@@ -2,7 +2,7 @@ export function formatFix(x, d) {
     let rounded = Math.round(parseFloat(x) * Math.pow(10, d));
     if (d >= 0) {
       let frac = rounded % Math.pow(10, d)
-      let int = parseInt(x)
+      let int = parseInt(rounded / Math.pow(10, d))
       let frac_str = frac.toString()
       if (frac_str.length < d)
           frac_str = "0".repeat(d - frac_str.length) + frac_str;
@@ -77,7 +77,8 @@ export function leftpad(x, n, c) {
 export function fmtAbsPrice(perHr, period) {
   if (perHr === undefined || isNaN(perHr))
     return "N/A"
-  return formatFix(parseFloat(perHr) * parsePeriod(period), period == "hr" ? 4 : 2)
+  const result = formatFix(parseFloat(perHr) * parsePeriod(period), period == "hr" ? 4 : 2)
+  return result
 }
 
 export function getUrlParams() {

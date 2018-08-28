@@ -40,7 +40,7 @@ export default class App extends Component {
   }
 
   isPreRender() {
-      return window.location.hostname == "localhost" && navigator.userAgent.indexOf("PhantomJS") != -1
+      return window.__PRERENDER_INJECTED === true
   }
 
   updateInstances() {
@@ -79,7 +79,7 @@ export default class App extends Component {
      <div>
         <div className="header">
         <h1><a href="/"><img className="logo" src="cloud.svg" alt="Kiwi standing on oval"/>AWS Instance Price Guide</a></h1>
-        <p className="update-text">{upd_text} &#8226; For informational purposes only. This page is not affiliated with Amazon. <a href="mail:feedback@instaguide.io">feedback@instaguide.io</a> </p>
+        <p className="update-text">{upd_text} &#8226; For informational purposes only. This page is not affiliated with Amazon. <a href="mailto:feedback@instaguide.io">feedback@instaguide.io</a> </p>
 
         {tw}
 

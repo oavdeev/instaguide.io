@@ -4,7 +4,7 @@
 const path = require('path');
 const PrerenderSpaPlugin = require('prerender-spa-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
+const Renderer = PrerenderSpaPlugin.PuppeteerRenderer
 
 module.exports = {
   entry:  {
@@ -41,14 +41,15 @@ module.exports = {
       template: 'client/html/index.html',
       chunks: ['instanceInfo']
     }),
-    new PrerenderSpaPlugin(
+    new PrerenderSpaPlugin({
       // Absolute path to compiled SPA
-      path.join(__dirname, './dist'),
+      staticDir: path.join(__dirname, './dist'),
       // List of routes to prerender
-      [ '/' ],
-      {
-        captureAfterElementExists: '.group-first'
-      }
-    )
+      routes: [ '/' ],
+      renderer: new Renderer({
+        renderAfterElementExists: '.group-first',
+        inject: true
+      })
+    })
   ]
 }

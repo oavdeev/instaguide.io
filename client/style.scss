@@ -287,7 +287,7 @@ table.instance-table {
 //   width:80vw;
     img {
         max-width:100%;
-    } 
+    }
 }
 .console-block {
     background: black;
@@ -296,6 +296,20 @@ table.instance-table {
     white-space: pre-wrap;
 
     padding: 6px 5px 5px 10px;
+    margin: 0 0 0 0;
+}
+
+a.back-link {
+    font-size: 70%;
+    margin-left: 25px;
+    color: black;
+    font-weight: normal;
+}
+
+.cpuinfo-warning {
+    background: #fdf967;
+    padding: 4px 4px 4px 4px;
+    margin: 0 0 0 0;
 }
 
 .selector-option {
