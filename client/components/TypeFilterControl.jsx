@@ -22,7 +22,9 @@ export class TypeFilterControl extends Component{
     }
 
     handleClickOutside(event) {
+
         if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            console.log("click outside", event.target)
             this.props.onBlur()
         }
     }
@@ -44,8 +46,9 @@ export class TypeFilterControl extends Component{
             type="text"
             ref={(x) => { this._input = x }}
             value={filterValue}
+            spellCheck="false"
             onInput={(e) => onInput(e.target.value)}
-            onKeyPress={(e) => (e.key == "Enter") ? onBlur() : ""}/>
+            onKeyPress={(e) => {if (e.key == "Enter") onBlur() }}/>
         <button
             style="
             line-height: 1.8;

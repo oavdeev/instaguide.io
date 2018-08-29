@@ -15,7 +15,7 @@ var all_columns = [
     filterFunction: (i, f) => {
       let num_missed = 0;
       for (let x of f.split(/[\s,]/)) {
-        if (x) {
+        if (x) {  
           if (i.instanceType.indexOf(x) != -1)
             return true;
           else
@@ -386,19 +386,27 @@ export default class InstanceTable extends Component {
         }
 
         const filterBtnClass = filterVal?"filter-active ion-funnel":"filter-inactive ion-funnel";
+        const onFilterBtnClick = (e) => {
+            e.stopPropagation();
+            this.setState({showFilterControl: f});
+        }
 
         filterControlButton = (
-          <span className={filterClassNames} onClick={() => this.setState({showFilterControl: f})}  >
-          <i class={filterBtnClass} ></i>
+          <div className="header-filter-wrapper"  onClick={onFilterBtnClick}>
+          <span className={filterClassNames} >
+          <i class={filterBtnClass} ></i>&nbsp;
           {tfc}
           </span>
+          </div>
         )
       }
 
-      head.push(<th className={this.props.sortField == f ? "sort-col" : ""}>
-                    <div className={classNames.join(" ")}>
-                    <span onClick={() => this.onHeaderClick(f)} className="colhead-span">{icon}{colname(c, computeProps)}</span>
+      head.push(<th className={this.props.sortField == f ? "sort-col" : ""} onClick={() => this.onHeaderClick(f)}>
                     {filterControlButton}
+                    <div className="header-sort-wrapper">
+                    <div className={classNames.join(" ")}>
+                    <span className="colhead-span">{icon}{colname(c, computeProps)}</span>
+                    </div>
                     </div>
                 </th>)
     }

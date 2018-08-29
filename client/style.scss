@@ -198,9 +198,31 @@ table.instance-table {
     th {
         cursor: pointer;
         background: #eee;
+        padding: 0px;
     }
-    th,td {
+
+    .header-sort-wrapper {
         padding: 8px 6px 8px 11px;
+        //float: left;
+        width: 100%;
+    }
+
+    &:first-of-type  .header-sort-wrapper  .col-text {
+        padding-left: 10px;
+    }
+
+    .header-filter-wrapper {
+        padding: 8px 0px 8px 0px;
+        float: right;
+        width: 25px;
+        height: 20px;
+    }
+
+    td {
+        padding: 8px 6px 8px 11px;
+    }
+
+    th,td {
         overflow: hidden;
     }
 
@@ -216,8 +238,6 @@ table.instance-table {
         }
 
         .colfilter-span {
-            padding-top: 2px;
-            float: right;
         }
 
         .filter-inactive {
@@ -232,9 +252,7 @@ table.instance-table {
             background-color: #ccc;
         }
 
-        &:first-of-type > .col-text {
-            padding-left: 10px;
-        }
+
     }
 
     tr.group-first {
