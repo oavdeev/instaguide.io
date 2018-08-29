@@ -19,7 +19,7 @@ export default class Settings {
         let keys = Object.keys(this.defaultSettings)
         for (let k in keys) {
             if (this.defaultSettings[keys[k]] != this[keys[k]]) {
-                res.push(keys[k] + "=" + this[keys[k]])
+                res.push(keys[k] + "=" + encodeURIComponent(this[keys[k]]))
             }
         }
         return res.join("&")
@@ -29,8 +29,9 @@ export default class Settings {
         let parts = s.substr(1).split("&")
         for (let i in parts) {
             let eq = parts[i].split("=")
-            if (eq[0] in this.defaultSettings && this.defaultSettings[eq[0]] != eq[1]) {
-                this[eq[0]] = eq[1]
+            const val = decodeURIComponent(eq[1]);
+            if (eq[0] in this.defaultSettings && this.defaultSettings[eq[0]] != val) {
+                this[eq[0]] = val
             }
         }
     }

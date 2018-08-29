@@ -15,7 +15,8 @@ const defaultSettings = {
     reservationTerm: "1yr_std_partup",
     typesFilter: "current",
     priceCalc: "ond",
-    period: "hr"
+    period: "hr",
+    cfType: ""
 }
 
 function makeQueryStr(d) {
@@ -28,7 +29,7 @@ export default class App extends Component {
     this.state.settings = new Settings(this.onChange.bind(this),
                                        window.location.hash,
                                        defaultSettings,
-                                       ["sortField", "sortDir", "regionCode", "reservationTerm"])
+                                       ["sortField", "sortDir", "regionCode", "reservationTerm", "colFilter"])
     this.state.instances = props.instances;
     this.updateInstances();
   }
@@ -100,7 +101,8 @@ export default class App extends Component {
                        settings={this.state.settings}
                        typesFilter={this.state.settings.typesFilter}
                        period={this.state.settings.period}
-                       priceCalc={this.state.settings.priceCalc}/>
+                       priceCalc={this.state.settings.priceCalc}
+                       cfType={this.state.settings.cfType}/>
         </div>
       </div>);
   }

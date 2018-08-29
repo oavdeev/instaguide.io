@@ -205,7 +205,7 @@ table.instance-table {
     }
 
     th {
-        i {
+        i.sort-icon {
             position: absolute;
             left: -10px;
             top: 2px;
@@ -213,6 +213,19 @@ table.instance-table {
 
         .colhead-span {
             position: relative; /* for sort arrow positioning */
+        }
+
+        .colfilter-span {
+            padding-top: 2px;
+            float: right;
+        }
+
+        .filter-inactive {
+            color: #888
+        }
+
+        .filter-active {
+            color: #b66;
         }
 
         &.sort-col {

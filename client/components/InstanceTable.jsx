@@ -1,6 +1,7 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 import * as Utils from './Utils';
+import {TypeFilterControl} from './TypeFilterControl.jsx';
 
 var all_columns = [
   {
@@ -9,7 +10,20 @@ var all_columns = [
     className: "col-text",
     sortKey: (x) => parseInstanceSize(x),
     groupKey: (x) => x.instanceType.split(".")[0],
-    format: (x) => (<a href={"/info.html?type=" + x}>{x}</a> )
+    format: (x) => (<a href={"/info.html?type=" + x}>{x}</a> ),
+    filterControl: true,
+    filterFunction: (i, f) => {
+      let num_missed = 0;
+      for (let x of f.split(/[\s,]/)) {
+        if (x) {
+          if (i.instanceType.indexOf(x) != -1)
+            return true;
+          else
+            num_missed += 1
+        }
+      }
+      return num_missed == 0;
+    }
   },
   {
     field: "vcpu",
@@ -332,6 +346,7 @@ export default class InstanceTable extends Component {
     }
 
     let vis_columns = this.props.columns.filter(priceCalcColFilter);
+    let filterFunctions = [];
 
     for (var i in vis_columns) {
       var c = vis_columns[i]
@@ -342,21 +357,63 @@ export default class InstanceTable extends Component {
 
       if (this.props.sortField == f) {
         if (this.props.sortDir > 0)
-          icon = <i className="ion-arrow-up-b"></i>
+          icon = <i className="sort-icon ion-arrow-up-b"></i>
         else
-          icon = <i className="ion-arrow-down-b"></i>
+          icon = <i className="sort-icon ion-arrow-down-b"></i>
       }
 
+      let filterControlButton = "";
 
-      head.push(<th className={this.props.sortField == f ? "sort-col" : ""}
-                    onClick={() => this.onHeaderClick(f)}>
+
+      if (c.filterControl) {
+        let filterClassNames = ["colfilter-span"]
+
+        const filterVal = this.props.cfType
+
+        if (filterVal) {
+          let fn = c.filterFunction;
+          filterFunctions.push((inst) => fn(inst, filterVal))
+        }
+
+        const onInput = (newVal) => {
+          console.log("newVal", newVal)
+          this.props.settings.set({cfType: newVal})
+        }
+
+        let tfc = "";
+        if (this.state.showFilterControl === f) {
+          tfc = <TypeFilterControl filterValue={filterVal} onInput={onInput} onBlur={() => this.setState({showFilterControl: null})}/>
+        }
+
+        const filterBtnClass = filterVal?"filter-active ion-funnel":"filter-inactive ion-funnel";
+
+        filterControlButton = (
+          <span className={filterClassNames} onClick={() => this.setState({showFilterControl: f})}  >
+          <i class={filterBtnClass} ></i>
+          {tfc}
+          </span>
+        )
+      }
+
+      head.push(<th className={this.props.sortField == f ? "sort-col" : ""}>
                     <div className={classNames.join(" ")}>
-                    <span className="colhead-span">{icon}{colname(c, computeProps)}</span>
+                    <span onClick={() => this.onHeaderClick(f)} className="colhead-span">{icon}{colname(c, computeProps)}</span>
+                    {filterControlButton}
                     </div>
                 </th>)
     }
 
-    var sorted = this.props.instances.filter(typesFilters[this.props.typesFilter])
+    var sorted = this.props.instances.filter((inst) => {
+      if (!typesFilters[this.props.typesFilter](inst))
+        return false;
+      for (i in filterFunctions) {
+        if (!filterFunctions[i](inst))
+          return false;
+      }
+      return true;
+    })
+
+
     let groupF = undefined
 
     if (this.props.sortField) {
