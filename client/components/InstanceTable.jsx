@@ -11,7 +11,8 @@ var all_columns = [
     sortKey: (x) => parseInstanceSize(x),
     groupKey: (x) => x.instanceType.split(".")[0],
     format: (x) => (<a href={"/info.html?type=" + x}>{x}</a> ),
-    filterControl: true,
+    filterControl: TypeFilterControl,
+    filterSettingsKey: 'cfType',
     filterFunction: (i, f) => {
       let num_missed = 0;
       for (let x of f.split(/[\s,]/)) {
@@ -367,8 +368,9 @@ export default class InstanceTable extends Component {
 
       if (c.filterControl) {
         let filterClassNames = ["colfilter-span"]
+        const filterSettingsKey = c.filterSettingsKey;
 
-        const filterVal = this.props.cfType
+        const filterVal = this.props[filterSettingsKey]
 
         if (filterVal) {
           let fn = c.filterFunction;
@@ -376,13 +378,12 @@ export default class InstanceTable extends Component {
         }
 
         const onInput = (newVal) => {
-          console.log("newVal", newVal)
-          this.props.settings.set({cfType: newVal})
+          this.props.settings.set({[filterSettingsKey]: newVal})
         }
 
         let tfc = "";
         if (this.state.showFilterControl === f) {
-          tfc = <TypeFilterControl filterValue={filterVal} onInput={onInput} onBlur={() => this.setState({showFilterControl: null})}/>
+          tfc = <c.filterControl filterValue={filterVal} onInput={onInput} onBlur={() => this.setState({showFilterControl: null})}/>
         }
 
         const filterBtnClass = filterVal?"filter-active ion-funnel":"filter-inactive ion-funnel";
