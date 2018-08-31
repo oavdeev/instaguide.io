@@ -84,6 +84,8 @@ export default class App extends Component {
 
         {tw}
 
+        <a href="https://github.com/oavdeev/instaguide.io/issues"  className="github-button"><button><img src="GitHub-Mark-64px.png"/><span>GitHub</span></button></a>
+
         </div>
         <div className="content">
         <Toolbar settings={this.state.settings}
